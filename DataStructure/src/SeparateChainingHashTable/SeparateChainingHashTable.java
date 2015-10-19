@@ -2,7 +2,7 @@ package SeparateChainingHashTable;
 
 import java.util.*;
 
-public class SeparateChainingHashTable<K,V>
+public class SeparateChainingHashTable<T>
 {
 	public SeparateChainingHashTable()
 	{
@@ -13,7 +13,7 @@ public class SeparateChainingHashTable<K,V>
 	{
 		theLists=new LinkedList[nextPrime(size)];
 		for(int i=0;i<theLists.length;i++)
-			theLists[i]=new LinkedList<V>();
+			theLists[i]=new LinkedList<T>();
 	}
 	
 	public void makeEmpty()
@@ -26,25 +26,25 @@ public class SeparateChainingHashTable<K,V>
 	
 	private static final int DEFAULT_TABLE_SIZE=101;
 	
-	private LinkedList<V>[] theLists;
+	private LinkedList<T>[] theLists;
 	private int currentSize;
 	
-	public boolean contains(V x)
+	public boolean contains(T x)
 	{
-		for(LinkedList<V> list:theLists)
+		for(LinkedList<T> list:theLists)
 			if(list.contains(x))
 				return true;
 		
 		return false;
 	}
 	
-	public void insert(K key,V value)
+	public void insert(T x)
 	{
-		List<V> whichList=theLists[myhash(key)];
+		List<T> whichList=theLists[myhash(x)];
 		
-		if(!whichList.contains(value))
+		if(!whichList.contains(x))
 		{
-			whichList.add(value);
+			whichList.add(x);
 			
 			//update the currentSize.
 			currentSize++;
@@ -68,22 +68,22 @@ public class SeparateChainingHashTable<K,V>
 	
 	private void rehash()
 	{
-		LinkedList<V>[] oldLists=theLists;
+		LinkedList<T>[] oldLists=theLists;
 		
 		//Create new double-sized,empty table
-		LinkedList<V>[] newLists=new LinkedList[2*theLists.length];
+		LinkedList<T>[] newLists=new LinkedList[2*theLists.length];
 		
 		for(int j=0;j<theLists.length;j++)
-			newLists[j]=new LinkedList<V>();
+			newLists[j]=new LinkedList<T>();
 		
 		currentSize=0;
 		
 		for(int i=0; i<oldLists.length; i++)
-			for(V item:oldLists[i])
+			for(T item:oldLists[i])
 				insert(item);
 	}
 	
-	private int myhash(K x)
+	private int myhash(T x)
 	{
 		int hashVal=x.hashCode();
 		
