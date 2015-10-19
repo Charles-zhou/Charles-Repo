@@ -55,7 +55,7 @@ public class SeparateChainingHashTable<T>
 		}
 	}
 	
-	private void remove(T x)
+	public  void remove(T x)
 	{
 		int hashVal=myhash(x);
 		

@@ -12,6 +12,7 @@ public class SeparateChainingHashTableTest
 		
 		System.out.println(separateChainingHashTable.contains("Hello"));
 		System.out.println(separateChainingHashTable.contains("hello"));
+		
 	}
 
 }
