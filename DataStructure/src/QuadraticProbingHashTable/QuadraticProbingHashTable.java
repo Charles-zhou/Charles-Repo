@@ -1,6 +1,5 @@
 package QuadraticProbingHashTable;
 
-import javax.print.attribute.ResolutionSyntax;
 
 public class QuadraticProbingHashTable<T> {
 	
@@ -45,8 +44,12 @@ public class QuadraticProbingHashTable<T> {
 			array[currentPos].isAcitve=false;
 	}
 	
-	public T getItem(int Pos) {
-		return array[Pos].element;
+	public T find(T e) {
+		//Because the hashcode is only determined by Key element of Entry(designed in the definition of Entry<K,V>).
+		//SO use findPos(e) will also find the right position.
+		int currentPos=findPos(e);
+		
+		return isActive(currentPos)?array[currentPos].element:null;
 	}
 	
 	private static class HashEntry<T> {
@@ -77,7 +80,7 @@ public class QuadraticProbingHashTable<T> {
 		return array[currentPos]!=null && array[currentPos].isAcitve;
 	}
 	
-	public int findPos(T x) {
+	private int findPos(T x) {
 		int currentPos=myhash(x);
 		int i=1;
 		
@@ -91,6 +94,7 @@ public class QuadraticProbingHashTable<T> {
 				currentPos+=array.length;
 		}
 		
+		//The return contains null case and equalization case. Null case means that the position doesn't contain an element. 
 		return currentPos;
 			
 	}
