@@ -28,6 +28,7 @@ public class LeftistHeap<T extends Comparable<? super T>> {
 		root=null;
 	}
 	
+	
 	private static class Node<T> {
 		
 		public Node(T theElement) {
