@@ -69,6 +69,10 @@ public class Sort {
 		a[i]=tmp;
 	}
 	
+	/**
+	 * The heapSort method.
+	 * @param a
+	 */
 	public static <T extends Comparable<? super T>> void heapSort(T[] a) {
 		
 		//build a heap
@@ -87,9 +91,50 @@ public class Sort {
 		
 	}
 	
+	private static <T extends Comparable<? super T>> void mergeSort(T[] a, T[] tmpArray, int left, int right) {
+		if(left<right) {
+			int center=(left+right)/2;
+			mergeSort(a, tmpArray, left, center);
+			mergeSort(a, tmpArray, center+1, right);
+			merge(a, tmpArray, left, center+1, right);
+		}
+	}
+	
+	
+	private static <T extends Comparable<? super T>> void merge(T[] a, T[] tmpArray, int leftPos, int rightPos, int rightEnd) {
+		
+		int leftEnd=rightPos-1;
+		int tmpPos=leftPos;
+		
+		//The number of element of the merge result
+		int numElment=rightEnd-leftEnd+1;
+		
+		//Main loop of merge
+		while(leftPos<=leftEnd && rightPos<=rightEnd) 
+			if(a[leftPos].compareTo(a[rightPos])<=0)
+				tmpArray[tmpPos++]=a[leftPos++];
+			else 
+				tmpArray[tmpPos++]=a[rightPos++];		
+		
+		while(leftPos<=leftEnd)
+			tmpArray[tmpPos++]=a[leftPos++];
+		
+		while(rightPos<=rightEnd)
+			tmpArray[tmpPos++]=a[rightPos++];
+			
+		for(int i=0; i<=numElment; i++, rightEnd--)
+			a[rightEnd]=tmpArray[rightEnd];
+	}
+	
+	public static <T extends Comparable<? super T>> void mergeSort(T[] a) {
+		T[] tmpArray=(T[])new Comparable[a.length];
+		
+		mergeSort(a, tmpArray, 0, a.length-1);
+	}
+	
 	public static void main(String[] args) {
 		
-		for(int n=10;n<=10000000;n*=10) {
+		for(int n=10;n<=100;n*=10) {
 			
 			System.out.println("The number of integer is " +n);
 			Integer[] array=new Integer[n];
@@ -119,7 +164,7 @@ public class Sort {
 			long end=System.nanoTime();
 			
 			System.out.println("Shell Sort:"+(end-start)+" ns");		
-			//System.out.println(Arrays.toString(array1));
+			System.out.println(Arrays.toString(array1));
 			
 			array1=array.clone();
 			start=System.nanoTime();
@@ -127,7 +172,15 @@ public class Sort {
 			end=System.nanoTime();
 			
 			System.out.println("Heap Sort:"+(end-start)+" ns");		
-			//System.out.println(Arrays.toString(array1));
+			System.out.println(Arrays.toString(array1));
+			
+			array1=array.clone();
+			start=System.nanoTime();
+			mergeSort(array1);
+			end=System.nanoTime();
+			
+			System.out.println("Merge Sort:"+(end-start)+" ns");		
+			System.out.println(Arrays.toString(array1));
 			
 			System.out.println();
 		}
